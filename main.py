@@ -15,6 +15,7 @@ from concurrent.futures import ThreadPoolExecutor
 from bs4 import BeautifulSoup
 from datetime import datetime 
 from urllib.parse import urljoin
+from dotenv import load_dotenv
 
 load_dotenv()
 
