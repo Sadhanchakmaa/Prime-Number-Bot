@@ -1,5 +1,6 @@
-requests
-firebase-admin
-urllib3
-beautifulsoup4
-pyotp
+requests==2.31.0
+firebase-admin==6.4.0
+urllib3==2.2.0
+python-dotenv==1.0.1
+beautifulsoup4==4.12.3
+pyotp==2.9.0
