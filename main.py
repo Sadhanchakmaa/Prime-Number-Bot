@@ -102,23 +102,21 @@ DEFAULT_CUSTOM_MESSAGES = {
 }
 
 # ==========================================
-# ==========================================
-# Firebase Setup (From ENV Variable)
+# Firebase Setup (From File - Recommended)
 # ==========================================
 db = None
 
-FIREBASE_CREDS_JSON = os.getenv("FIREBASE_CREDENTIALS")
-if FIREBASE_CREDS_JSON:
+# ফাইল থেকে লোড করার চেষ্টা করবে
+if os.path.exists("firebase-key.json"):
     try:
-        cred_dict = json.loads(FIREBASE_CREDS_JSON)
-        cred = credentials.Certificate(cred_dict)
+        cred = credentials.Certificate("firebase-key.json")
         firebase_admin.initialize_app(cred)
         db = firestore.client()
-        print("✅ Firebase Connected from ENV!")
+        print("✅ Firebase Connected from file!")
     except Exception as e:
         print(f"❌ Firebase Error: {e}")
 else:
-    print("⚠️ No Firebase credentials found. Running without database.")
+    print("⚠️ firebase-key.json file not found. Running without database.")
 
 bot_settings = {
     "admins": [OWNER_ID],
