@@ -102,22 +102,30 @@ DEFAULT_CUSTOM_MESSAGES = {
 }
 
 # ==========================================
-# Firebase Setup (From File - Recommended)
+# Firebase Setup
 # ==========================================
-db = None
+firebase_credentials_json = {
+    "type": "service_account",
+    "project_id": "project-e8ab0",
+    "private_key_id": "6279c511e857e90beb6318fa7eb28bd27d56c046",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDSSQ8O3mhrUFwT\nlS/mu4Xq5ndLY6Y+Ovr3wSKnu23EVcoKGj1xP9bkRMVYqnflDO2s3ScKkIoY9ZFb\nEFfsNNqQLHlSTT0dW0n2UJnyCQdjbalNyhCBLU3oV+Ie2Q/De5/V6wluhiTVi+wV\n51ztZStUmpShbXhKIUm6ZYmk05xaVIdDDyiK7zCYrP1Y7noZ9+ZpZnPjBdTEyJzV\nzj1tX7mU3VwpLCzc0ZA4ZoPSXG4S2KCwUWZN6mpGm8IMrO0iEwbmtaBb/0xQm4xt\nDs6I20Dd72mjFHsFX/ejiaMyGH6tN5Sg6xZoLHlKWvjWTnODDqAIMhBJLArUixw0\nsckl7i1zAgMBAAECggEAPsW/YH1k51AERHY+594nolDs4IzdJet+WnIFcdOh9z9y\nweRGXiWj9N1QmeC9TJs44ebcjitKhhvcKbZtwJ2gdvRHvRlAeqBzKjuyUM2ALp6g\nMQ/2MFGBVa/SWMoMChs/weBZHuydVz/fGETJ+TW/oxBH+Q5QH7TjKOjBl3nxzQau\n4WPNv4TWIGo/yd+kxqPplIz5K4GZXfTpvGp5DW7dupPiMD+NwhjTBKqP5IcSl7n3\n2QYXvKegDPzNfdSEA7jUMih2FNd3dFzZncCOD3Ta+nJ3hkp97U3Fh8ldonkA18ik\nXsYDgU3YgmRzRIzZYNfHQ5dx1gbmqSKLYb1Njdze5QKBgQD1h4NZJh6PA1BhGNfN\nzyPyewsp/SfIBj1zuFaqd8r+jWm8YykX5Ecx87eDVFQh+rB4z0+arj7g4inC0/EX\ntU52DtvTDZxeQ0ZJjR5qoDsakBhdTiN7DMfuTPaRPnluMyoBTHCo5j1ilJwPyqFZ\nh89zHA4FsDRSXjlu8K9DWb9XJwKBgQDbQMf+2d1PKRmH65bYLXslA//c//g4/hVk\n8Cl6ypvkkEKTaZQrGLyMy1Omj3Z++UmCjj96PBB4P67pIaM3Fgnf7RYurBDJqczP\nvWW5hWKzVi0gJYTdPpy/3J/qJ2fg12mSXormHQG37zYu9JQdkHq4Vol5rnbU4Ig5\nUSo9eKpG1QKBgQDUQOz0kXaTbWr8NWzB15Mc2O/Cwb21NmfDdRU+0sZinj9NA3AP\n3mEJtsXrO2hr43rRRW5sqrtiz0EI0w210B/fAWNZpYeLGZ9WkC8+P/w4L19Qse8M\nPfVMda4ly5tP/90NOFagPEHOyefL4wDvE+/rc9JPao8gsaH23Qy2LYyyuwKBgBUm\ncKSC+7hRLKdR8KE18fUmJ554Csfkqser6zRvKw6nY+S4gJSPtFCYpJ8io7mn7pFr\ni3ANL0GKUyMmHYqI07cINeWWr5/kg19e09tLpLPMElpRhDmbep9/duWtm3WzEfoO\nqLN+BNZrevyYl1kqwMvbfTOBwvDSIBH3ZG29oB9pAoGAHNRmQzQQWUFj+8sIF/DV\nRmY70soqsWXiIM4YXutFz1AnWPubwuPMnmwWXBCZ/1GjgjEzxVQFDx3N3HJdweMH\naVsj18WykF/5VbCQKqNmd4sEEG6KyojfVgyqUnuV6X0uGg3t4/FQ9untjryUxoHS\nUUvQMwhv0vzm5GUMpwWMbc8=\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-fbsvc@project-e8ab0.iam.gserviceaccount.com",
+    "client_id": "116762025579278668917",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40project-e8ab0.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+}
 
-# ফাইল থেকে লোড করার চেষ্টা করবে
-if os.path.exists("firebase-key.json"):
-    try:
-        cred = credentials.Certificate("firebase-key.json")
-        firebase_admin.initialize_app(cred)
-        db = firestore.client()
-        print("✅ Firebase Connected from file!")
-    except Exception as e:
-        print(f"❌ Firebase Error: {e}")
-else:
-    print("⚠️ firebase-key.json file not found. Running without database.")
-
+try:
+    cred = credentials.Certificate(firebase_credentials_json)
+    firebase_admin.initialize_app(cred)
+    db = firestore.client()
+    print("✅ Firebase Connected! (Full Sync Enabled)")
+except Exception as e:
+    print(f"❌ Firebase Error: {e}")
+    db = None
 bot_settings = {
     "admins": [OWNER_ID],
     "panels": [], 
